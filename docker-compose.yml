@@ -1,0 +1,59 @@
+name: integral-consulting
+
+services:
+  # Backend API (NestJS)
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.dev
+    container_name: integral-api-dev
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+      ADMIN_TOKEN: dev-token-cambiar-en-prod
+      DATA_DIR: /data
+      WEB_ORIGIN: http://localhost:3000
+      CONTACT_TO: dev@example.com
+      CONTACT_FROM: "Integral Consulting <dev@example.com>"
+    volumes:
+      - ./apps/api:/app
+      - /app/node_modules
+      - ./apps/api/data:/data
+    command: npm run start:dev
+    networks:
+      - integral-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  # Frontend Web (Next.js)
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile.dev
+    container_name: integral-web-dev
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      API_URL: http://localhost:4000
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      NEXT_PUBLIC_WHATSAPP: 573214946748
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - integral-network
+    command: npm run dev
+
+networks:
+  integral-network:
+    driver: bridge

@@ -1,0 +1,27 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "env": [
+    {
+      "key": "API_URL",
+      "description": "URL pública de la API en Railway (sin / final)",
+      "value": "",
+      "type": "plain"
+    },
+    {
+      "key": "NEXT_PUBLIC_SITE_URL",
+      "description": "URL pública del sitio (para sitemap, robots, metadatos)",
+      "value": "",
+      "type": "plain"
+    },
+    {
+      "key": "NEXT_PUBLIC_WHATSAPP",
+      "description": "Número de WhatsApp (sin + ni espacios)",
+      "value": "573214946748",
+      "type": "plain"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # Backend API (NestJS) - Producción
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: integral-api-prod
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      ADMIN_TOKEN: ${ADMIN_TOKEN}
+      DATA_DIR: /data
+      WEB_ORIGIN: ${WEB_ORIGIN}
+      CONTACT_TO: ${CONTACT_TO}
+      CONTACT_FROM: ${CONTACT_FROM}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+    volumes:
+      - api_data:/data
+    networks:
+      - integral-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
+  # Frontend Web (Next.js) - Producción
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: integral-web-prod
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      API_URL: ${API_URL}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+      NEXT_PUBLIC_WHATSAPP: ${NEXT_PUBLIC_WHATSAPP}
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - integral-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
+networks:
+  integral-network:
+    driver: bridge
+
+volumes:
+  api_data:

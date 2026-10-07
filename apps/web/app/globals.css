@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html { scroll-behavior: smooth; }
+body { @apply bg-navy-950 text-silver-100 font-sans antialiased; }
+.num { font-variant-numeric: tabular-nums; }
+.wrap { @apply mx-auto w-full max-w-6xl px-5 sm:px-8; }
+.eyebrow { @apply text-[11px] font-semibold uppercase tracking-[0.28em] text-gold-500; }
+.h1 { @apply font-sans text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl; }
+.h2 { @apply font-sans text-3xl font-bold tracking-tight sm:text-4xl; }
+.lead { @apply font-serif text-lg leading-relaxed text-silver-300 sm:text-xl; }
+.card { @apply rounded-xl border border-white/10 bg-navy-800/70 p-6 transition hover:border-gold-500/40; }
+.btn { @apply inline-flex items-center justify-center rounded-md px-5 py-3 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400; }
+.btn-gold { @apply btn bg-gold-500 text-navy-950 hover:bg-gold-400; }
+.btn-ghost { @apply btn border border-white/20 text-silver-100 hover:border-gold-500 hover:text-gold-400; }
+.input { @apply w-full rounded-md border border-white/15 bg-navy-900 px-3 py-2.5 text-sm text-silver-100 placeholder:text-silver-500 focus:border-gold-500 focus:outline-none; }
+.label { @apply mb-1 block text-xs font-medium uppercase tracking-wider text-silver-300; }
+.section { @apply py-16 sm:py-24; }
+.logo-fade { -webkit-mask-image: radial-gradient(ellipse at center, #000 52%, transparent 78%); mask-image: radial-gradient(ellipse at center, #000 52%, transparent 78%); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
